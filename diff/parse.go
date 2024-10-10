@@ -287,8 +287,20 @@ endhunk:
 			}
 			hunk.Lines = append(hunk.Lines, line)
 		case tokenNoNewlineAtEOF:
-			// skip \ No newline at end of file. just consume line
 			readline(p.r)
+			if len(hunk.Lines) == 0 {
+				continue
+			}
+			// get the type to be the same as the last line in hunk.Lines
+			lineType := hunk.Lines[len(hunk.Lines)-1].Type
+			switch lineType {
+			case LineUnchanged:
+				continue
+			case LineAdded:
+				hunk.NoNewlineAtEOFNew = true
+			case LineDeleted:
+				hunk.NoNewlineAtEOFOld = true
+			}
 		default:
 			break endhunk
 		}

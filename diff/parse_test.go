@@ -82,6 +82,14 @@ func TestParseMultiFile_sample(t *testing.T) {
 +b
 +b
 \ No newline at end of file
+--- newline.old.txt	2024-10-10 20:15:37.618432000 +0900
++++ newline.new.txt	2024-10-10 20:15:02.110606546 +0900
+@@ -1,3 +1,3 @@
+ " vim: nofixeol
+ No newline at end of the old file only
+-a
+\ No newline at end of file
++b
 `
 
 	got, err := ParseMultiFile(strings.NewReader(content))
@@ -96,7 +104,8 @@ func TestParseMultiFile_sample(t *testing.T) {
 			TimeNew: "2016-10-13 05:15:26.839245048 +0900",
 			Hunks: []*Hunk{
 				{
-					StartLineOld: 1, LineLengthOld: 3, StartLineNew: 1, LineLengthNew: 4,
+					StartLineOld: 1, LineLengthOld: 3, NoNewlineAtEOFOld: false,
+					StartLineNew: 1, LineLengthNew: 4, NoNewlineAtEOFNew: false,
 					Lines: []*Line{
 						{Type: 0, Content: "unchanged, contextual line", LnumDiff: 1, LnumOld: 1, LnumNew: 1},
 						{Type: 2, Content: "deleted line", LnumDiff: 2, LnumOld: 2, LnumNew: 0},
@@ -114,7 +123,8 @@ func TestParseMultiFile_sample(t *testing.T) {
 			TimeNew: "2016-10-13 15:34:14.868444672 +0900",
 			Hunks: []*Hunk{
 				{
-					StartLineOld: 1, LineLengthOld: 4, StartLineNew: 1, LineLengthNew: 4,
+					StartLineOld: 1, LineLengthOld: 4, NoNewlineAtEOFOld: true,
+					StartLineNew: 1, LineLengthNew: 4, NoNewlineAtEOFNew: true,
 					Lines: []*Line{
 						{Type: 0, Content: "\" vim: nofixeol noendofline", LnumDiff: 1, LnumOld: 1, LnumNew: 1},
 						{Type: 0, Content: "No newline at end of both the old and new file", LnumDiff: 2, LnumOld: 2, LnumNew: 2},
@@ -122,6 +132,24 @@ func TestParseMultiFile_sample(t *testing.T) {
 						{Type: 2, Content: "a", LnumDiff: 4, LnumOld: 4, LnumNew: 0},
 						{Type: 1, Content: "b", LnumDiff: 5, LnumOld: 0, LnumNew: 3},
 						{Type: 1, Content: "b", LnumDiff: 6, LnumOld: 0, LnumNew: 4},
+					},
+				},
+			},
+		},
+		{
+			PathOld: "newline.old.txt",
+			PathNew: "newline.new.txt",
+			TimeOld: "2024-10-10 20:15:37.618432000 +0900",
+			TimeNew: "2024-10-10 20:15:02.110606546 +0900",
+			Hunks: []*Hunk{
+				{
+					StartLineOld: 1, LineLengthOld: 3, NoNewlineAtEOFOld: true,
+					StartLineNew: 1, LineLengthNew: 3, NoNewlineAtEOFNew: false,
+					Lines: []*Line{
+						{Type: 0, Content: "\" vim: nofixeol", LnumDiff: 1, LnumOld: 1, LnumNew: 1},
+						{Type: 0, Content: "No newline at end of the old file only", LnumDiff: 2, LnumOld: 2, LnumNew: 2},
+						{Type: 2, Content: "a", LnumDiff: 3, LnumOld: 3, LnumNew: 0},
+						{Type: 1, Content: "b", LnumDiff: 4, LnumOld: 0, LnumNew: 3},
 					},
 				},
 			},

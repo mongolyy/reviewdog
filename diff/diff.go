@@ -23,9 +23,6 @@ type FileDiff struct {
 
 	// extended header lines (e.g., git's "new mode <mode>", "rename from <path>", index fb14f33..c19311b 100644, etc.)
 	Extended []string
-
-	// TODO: we may want `\ No newline at end of file` information for both the
-	// old and new file.
 }
 
 // Hunk represents change hunks that contain the line differences in the file.
@@ -48,11 +45,15 @@ type Hunk struct {
 	StartLineOld int
 	// the number of lines the change hunk applies to for the old file
 	LineLengthOld int
+	// no newline at end of the old file
+	NoNewlineAtEOFOld bool
 
 	// the starting line number of the new file
 	StartLineNew int
 	// the number of lines the change hunk applies to for the new file
 	LineLengthNew int
+	// no newline at end of the new file
+	NoNewlineAtEOFNew bool
 
 	// optional section heading
 	Section string
