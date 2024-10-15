@@ -7,9 +7,11 @@
     "Hunks": [
       {
         "StartLineOld": 1,
-        "LineLengthOld": 6,
+        "LineLengthOld": 3,
+        "NoNewlineAtEOFOld": true,
         "StartLineNew": 1,
-        "LineLengthNew": 7,
+        "LineLengthNew": 4,
+        "NoNewlineAtEOFNew": false,
         "Section": "",
         "Lines": [
           {
@@ -46,27 +48,6 @@
             "LnumDiff": 5,
             "LnumOld": 0,
             "LnumNew": 4
-          },
-          {
-            "Type": 0,
-            "Content": "",
-            "LnumDiff": 6,
-            "LnumOld": 4,
-            "LnumNew": 5
-          },
-          {
-            "Type": 0,
-            "Content": "",
-            "LnumDiff": 7,
-            "LnumOld": 5,
-            "LnumNew": 6
-          },
-          {
-            "Type": 0,
-            "Content": "\" vim: nofixeol noendofline",
-            "LnumDiff": 8,
-            "LnumOld": 6,
-            "LnumNew": 7
           }
         ]
       }

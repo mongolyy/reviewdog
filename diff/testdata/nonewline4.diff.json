@@ -1,14 +1,14 @@
 [
   {
-    "PathOld": "nonewline.old.txt",
-    "PathNew": "nonewline.new.txt",
+    "PathOld": "nonewline4.old.txt",
+    "PathNew": "nonewline4.new.txt",
     "TimeOld": "2019-04-19 13:19:50.331526534 +0000",
     "TimeNew": "2019-04-19 13:19:50.331526534 +0000",
     "Hunks": [
       {
         "StartLineOld": 1,
-        "LineLengthOld": 4,
-        "NoNewlineAtEOFOld": true,
+        "LineLengthOld": 3,
+        "NoNewlineAtEOFOld": false,
         "StartLineNew": 1,
         "LineLengthNew": 4,
         "NoNewlineAtEOFNew": true,
@@ -16,14 +16,14 @@
         "Lines": [
           {
             "Type": 0,
-            "Content": "\" vim: nofixeol noendofline",
+            "Content": "Newline at end of the old file",
             "LnumDiff": 1,
             "LnumOld": 1,
             "LnumNew": 1
           },
           {
             "Type": 0,
-            "Content": "No newline at end of both the old and new file",
+            "Content": "No newline at end of the new file",
             "LnumDiff": 2,
             "LnumOld": 2,
             "LnumNew": 2
@@ -36,23 +36,16 @@
             "LnumNew": 0
           },
           {
-            "Type": 2,
-            "Content": "a",
-            "LnumDiff": 4,
-            "LnumOld": 4,
-            "LnumNew": 0
-          },
-          {
             "Type": 1,
             "Content": "b",
-            "LnumDiff": 5,
+            "LnumDiff": 4,
             "LnumOld": 0,
             "LnumNew": 3
           },
           {
             "Type": 1,
             "Content": "b",
-            "LnumDiff": 6,
+            "LnumDiff": 5,
             "LnumOld": 0,
             "LnumNew": 4
           }

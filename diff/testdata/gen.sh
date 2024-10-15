@@ -4,6 +4,7 @@ git diff --no-index sample.{old,new}.txt > sample.git.diff
 diff -u nonewline.{old,new}.txt > nonewline.diff
 diff -u nonewline2.{old,new}.txt > nonewline2.diff
 diff -u nonewline3.{old,new}.txt > nonewline3.diff
+diff -u nonewline4.{old,new}.txt > nonewline4.diff
 diff -u empty.txt empty.txt > empty.diff
 git diff --no-index /dev/null empty.txt > empty_new.diff
 git diff --no-index empty.txt /dev/null  > empty_deleted.diff
