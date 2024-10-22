@@ -104,6 +104,9 @@ func (p *DiffParser) Parse(r io.Reader) ([]*rdf.Diagnostic, error) {
 				}
 				prevState = diffLine.Type
 			}
+			if hunk.NoNewlineAtEOFOld && !hunk.NoNewlineAtEOFNew {
+				state.newLines = append(state.newLines, "")
+			}
 			if state.startLine > 0 {
 				emit() // Output a diagnostic at the end of hunk.
 			}

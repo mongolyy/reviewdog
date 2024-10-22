@@ -163,3 +163,213 @@ func ExampleDiffParser() {
 	//   "originalOutput": "gofmt.go:19:-type s struct { A int }"
 	// }
 }
+
+func ExampleDiffParser_addNewLine() {
+	const sample = `diff --git a/newline.txt b/newline.txt
+--- a/newline.txt	2024-10-10 20:15:37.618432000 +0900
++++ b/newline.txt	2024-10-10 20:15:02.110606546 +0900
+@@ -1,2 +1,2 @@
+ No newline at end of the old file only
+-a
+\ No newline at end of file
++a
+`
+	const strip = 1
+	p := NewDiffParser(strip)
+	diagnostics, err := p.Parse(strings.NewReader(sample))
+	if err != nil {
+		panic(err)
+	}
+	for _, d := range diagnostics {
+		rdjson, _ := protojson.MarshalOptions{Indent: "  "}.Marshal(d)
+		var out bytes.Buffer
+		json.Indent(&out, rdjson, "", "  ")
+		fmt.Println(out.String())
+	}
+	// Output:
+	// {
+	//   "location": {
+	//     "path": "newline.txt",
+	//     "range": {
+	//       "start": {
+	//         "line": 2
+	//       },
+	//       "end": {
+	//         "line": 2
+	//       }
+	//     }
+	//   },
+	//   "suggestions": [
+	//     {
+	//       "range": {
+	//         "start": {
+	//           "line": 2
+	//         },
+	//         "end": {
+	//           "line": 2
+	//         }
+	//       },
+	//       "text": "a\n"
+	//     }
+	//   ],
+	//   "originalOutput": "newline.txt:2:-a\nnewline.txt:2:+a"
+	// }
+}
+
+func ExampleDiffParser_removeNewLine() {
+	const sample = `diff --git a/newline.txt b/newline.txt
+--- a/newline.txt	2024-10-10 20:15:37.618432000 +0900
++++ b/newline.txt	2024-10-10 20:15:02.110606546 +0900
+@@ -1,2 +1,2 @@
+ No newline at end of the new file only
+-a
++a
+\ No newline at end of file
+`
+	const strip = 1
+	p := NewDiffParser(strip)
+	diagnostics, err := p.Parse(strings.NewReader(sample))
+	if err != nil {
+		panic(err)
+	}
+	for _, d := range diagnostics {
+		rdjson, _ := protojson.MarshalOptions{Indent: "  "}.Marshal(d)
+		var out bytes.Buffer
+		json.Indent(&out, rdjson, "", "  ")
+		fmt.Println(out.String())
+	}
+	// Output:
+	// {
+	//   "location": {
+	//     "path": "newline.txt",
+	//     "range": {
+	//       "start": {
+	//         "line": 2
+	//       },
+	//       "end": {
+	//         "line": 2
+	//       }
+	//     }
+	//   },
+	//   "suggestions": [
+	//     {
+	//       "range": {
+	//         "start": {
+	//           "line": 2
+	//         },
+	//         "end": {
+	//           "line": 2
+	//         }
+	//       },
+	//       "text": "a"
+	//     }
+	//   ],
+	//   "originalOutput": "newline.txt:2:-a\nnewline.txt:2:+a"
+	// }
+}
+
+func ExampleDiffParser_keepNoNewLine() {
+	const sample = `diff --git a/newline.txt b/newline.txt
+--- a/newline.txt	2024-10-10 20:15:37.618432000 +0900
++++ b/newline.txt	2024-10-10 20:15:02.110606546 +0900
+@@ -1,2 +1,2 @@
+ No newline at end of both the old and new file
+-a
+\ No newline at end of file
++b
+\ No newline at end of file
+`
+	const strip = 1
+	p := NewDiffParser(strip)
+	diagnostics, err := p.Parse(strings.NewReader(sample))
+	if err != nil {
+		panic(err)
+	}
+	for _, d := range diagnostics {
+		rdjson, _ := protojson.MarshalOptions{Indent: "  "}.Marshal(d)
+		var out bytes.Buffer
+		json.Indent(&out, rdjson, "", "  ")
+		fmt.Println(out.String())
+	}
+	// Output:
+	// {
+	//   "location": {
+	//     "path": "newline.txt",
+	//     "range": {
+	//       "start": {
+	//         "line": 2
+	//       },
+	//       "end": {
+	//         "line": 2
+	//       }
+	//     }
+	//   },
+	//   "suggestions": [
+	//     {
+	//       "range": {
+	//         "start": {
+	//           "line": 2
+	//         },
+	//         "end": {
+	//           "line": 2
+	//         }
+	//       },
+	//       "text": "b"
+	//     }
+	//   ],
+	//   "originalOutput": "newline.txt:2:-a\nnewline.txt:2:+b"
+	// }
+}
+
+func ExampleDiffParser_noChangeLastLine() {
+	const sample = `diff --git a/newline.txt b/newline.txt
+--- a/newline.txt	2024-10-10 20:15:37.618432000 +0900
++++ b/newline.txt	2024-10-10 20:15:02.110606546 +0900
+@@ -1,3 +1,3 @@
+ No newline at end of both the old and new file
+-a
++b
+ Last line
+\ No newline at end of file
+`
+	const strip = 1
+	p := NewDiffParser(strip)
+	diagnostics, err := p.Parse(strings.NewReader(sample))
+	if err != nil {
+		panic(err)
+	}
+	for _, d := range diagnostics {
+		rdjson, _ := protojson.MarshalOptions{Indent: "  "}.Marshal(d)
+		var out bytes.Buffer
+		json.Indent(&out, rdjson, "", "  ")
+		fmt.Println(out.String())
+	}
+	// Output:
+	// {
+	//   "location": {
+	//     "path": "newline.txt",
+	//     "range": {
+	//       "start": {
+	//         "line": 2
+	//       },
+	//       "end": {
+	//         "line": 2
+	//       }
+	//     }
+	//   },
+	//   "suggestions": [
+	//     {
+	//       "range": {
+	//         "start": {
+	//           "line": 2
+	//         },
+	//         "end": {
+	//           "line": 2
+	//         }
+	//       },
+	//       "text": "b"
+	//     }
+	//   ],
+	//   "originalOutput": "newline.txt:2:-a\nnewline.txt:2:+b"
+	// }
+}
